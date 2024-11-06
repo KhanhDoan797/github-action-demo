@@ -9,11 +9,15 @@ jobs:
   build-and-deploy:
     environment: dev
     runs-on: ubuntu-latest
-    if: github.ref_name == vars.DEPLOY_BRANCH
+    #if: github.ref_name == vars.DEPLOY_BRANCH
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Print Debug info
+        run: |
+          echo "Current branch: ${{github.ref_name}}"
+          echo "Deploy branch: ${{ vars.DEPLOY_BRANCH }}"
 
       - name: Get current date
         id: date
