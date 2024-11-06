@@ -1,0 +1,45 @@
+name: Deploy Test Page
+
+on:
+  push:
+    branches:
+      - '*'  # Match all branches
+
+jobs:
+  build-and-deploy:
+    environment: dev
+    runs-on: ubuntu-latest
+    if: github.ref_name == vars.DEPLOY_BRANCH
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+
+      - name: Process HTML file
+        run: |
+          # Replace placeholders with actual values
+          sed -i "s/{{BRANCH_NAME}}/${{ github.ref_name }}/g" index.html
+          sed -i "s/{{DEPLOY_TIME}}/${{ steps.date.outputs.date }}/g" index.html
+          sed -i "s/{{VERSION}}/${{ github.sha }}/g" index.html
+
+      # Nếu bạn dùng GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+
+      # Hoặc nếu bạn muốn deploy lên server riêng
+      - name: Deploy to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          source: "index.html"
+          target: "/var/www/html"
