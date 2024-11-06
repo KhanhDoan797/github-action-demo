@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploy Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f0f2f5;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .title {
+            color: #1a73e8;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .label {
+            font-weight: bold;
+            color: #5f6368;
+        }
+        .value {
+            color: #1a73e8;
+        }
+        .version {
+            text-align: center;
+            color: #5f6368;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 class="title">Deployment Info</h1>
+        <div class="info-item">
+            <span class="label">Branch:</span>
+            <span class="value" id="branch">Loading...</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Deploy Time:</span>
+            <span class="value" id="deployTime">Loading...</span>
+        </div>
+        <div class="version">Version: <span id="version">Loading...</span></div>
+    </div>
+    
+    <script>
+        // These values will be replaced during build by GitHub Actions
+        const deployInfo = {
+            branch: '{{BRANCH_NAME}}',
+            deployTime: '{{DEPLOY_TIME}}',
+            version: '{{VERSION}}'
+        };
+
+        // Update DOM with deployment info
+        document.getElementById('branch').textContent = deployInfo.branch;
+        document.getElementById('deployTime').textContent = deployInfo.deployTime;
+        document.getElementById('version').textContent = deployInfo.version;
+    </script>
+</body>
+</html>
