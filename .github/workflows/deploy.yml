@@ -9,7 +9,7 @@ jobs:
   build-and-deploy:
     environment: dev
     runs-on: ubuntu-latest
-    #if: github.ref_name == vars.DEPLOY_BRANCH
+    if: github.ref_name == vars.DEPLOY_BRANCH
     
     steps:
       - name: Checkout repository
