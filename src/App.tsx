@@ -12,7 +12,7 @@ const App = () => {
                 <h1 className="text-2xl font-bold text-center mb-8">Deployment Info</h1>
                 <div className="space-y-4">
                   <p className="flex justify-between">
-                    <span className="font-semibold">Branch:</span>
+                    <span className="font-semibold">Branch haha:</span>
                     <span className="text-green-600">{'Not available'}</span>
                   </p>
                   <p className="flex justify-between">
