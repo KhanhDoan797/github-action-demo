@@ -1,0 +1,53 @@
+name: Deploy Test App
+
+on:
+  push:
+    branches:
+    - 'master'
+
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'master'
+
+jobs:
+  build-and-deploy:
+    environment: dev
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+        # env:
+        #   VITE_BRANCH_NAME: ${{ github.ref_name }}
+        #   VITE_BUILD_TIME: ${{ steps.date.outputs.date }}
+        #   VITE_ENV: 'development'
+
+      # Sử dụng simple-http-server để host ứng dụng
+      - name: Setup simple-http-server
+        run: npm install -g http-server
+
+      - name: Start server
+        run: |
+          cd dist
+          http-server -p 8080 &
+          echo "Server started on port 8080"
+
+      # Optional: Add healthcheck
+      - name: Health check
+        run: |
+          sleep 5  # Wait for server to start
+          curl http://localhost:8080 || exit 1
