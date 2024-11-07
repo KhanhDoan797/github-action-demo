@@ -6,9 +6,6 @@ on:
     - 'master'
 
   workflow_dispatch:
-    inputs:
-      branch:
-        default: 'master'
 
 jobs:
   build-and-deploy:
